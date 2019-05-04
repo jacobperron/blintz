@@ -1,0 +1,64 @@
+body {
+  overflow-y: hidden;
+}
+
+.board {
+  display: flex;
+  height: 100vh;
+}
+
+.column {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  margin: 10px;
+  text-align: center;
+  color:#000 !important;
+  background-color:#c4c6c8 !important;
+}
+
+.columnIssues {
+  overflow-y: auto;
+}
+
+.issue {
+  flex: 1;
+  color: #000 !important;
+  background-color: #e1e2e4 !important;
+  border-radius: 10px !important;
+  border: 1px solid black !important;
+  margin: 5px 0px;
+}
+
+.issueHeader {
+  display: flex;
+}
+
+.issueNumber {
+  padding: 0px 10px;
+}
+
+.issueRepository {
+  font-weight: bold;
+}
+
+.issueBody {
+  padding: 10px;
+  text-align: left;
+}
+
+.issueFooter {
+  display: flex;
+}
+
+.issueLabels {
+  display: flex;
+}
+
+.issueURL {
+  margin-left: auto;
+  padding: 0px 10px;
+}
