@@ -1,0 +1,7 @@
+# TODO(jacobperron): How can we authenticate with GitHub?
+schema: https://api.github.com/graphql
+overwrite: true
+generates:
+  ./fragmentTypes.json:
+    plugins:
+      - fragment-matcher
