@@ -24,6 +24,29 @@ function renderLabels(labels) {
   );
 }
 
+function renderConnectedPRs(connectedPRs) {
+  return (
+    connectedPRs.map(pr => {
+      if (typeof pr.repository === "undefined") {
+        return '';
+      }
+      return (
+        <div key={pr.id} className="connectedPR">
+          <div className="connectedPRNumber">
+            {pr.number}
+          </div>
+          <div className="connectedPRName">
+            {pr.repository.nameWithOwner}
+          </div>
+          <div className="connectedPRURL">
+            <a href={pr.url}>github</a>
+          </div>
+        </div>
+      );
+    })
+  );
+}
+
 function Issue(props) {
   return (
     <div className="issue">
@@ -45,6 +68,9 @@ function Issue(props) {
         <div className="issueURL">
           <a href={props.url}>github</a>
         </div>
+      </div>
+      <div className="issueConnectedPRs">
+        {renderConnectedPRs(props.connectedPRs)}
       </div>
     </div>
   );

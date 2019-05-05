@@ -33,6 +33,24 @@ function repo_query(anon, i) {
           repository {
             nameWithOwner
           }
+          timelineItems(last:100, itemTypes:CROSS_REFERENCED_EVENT) {
+            edges {
+              node {
+                ... on CrossReferencedEvent {
+                  source {
+                    ... on PullRequest {
+                      id
+                      number
+                      repository {
+                        nameWithOwner
+                      }
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
           title
           url
         }

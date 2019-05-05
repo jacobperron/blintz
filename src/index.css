@@ -14,7 +14,6 @@ body {
   flex-direction: column;
 
   height: 100vh;
-  margin: 10px;
   text-align: center;
   color:#000 !important;
   background-color:#c4c6c8 !important;
@@ -52,6 +51,7 @@ body {
 
 .issueFooter {
   display: flex;
+  box-shadow: 0px 5px 5px #888888;
 }
 
 .issueLabels {
@@ -59,6 +59,25 @@ body {
 }
 
 .issueURL {
+  margin-left: auto;
+  padding: 0px 10px;
+}
+
+.connectedPR {
+  display: flex;
+  border-top: 1px solid lightgrey;
+}
+
+.connectedPRNumber {
+  padding: 0px 10px;
+  font-weight: bold;
+}
+
+.connectedPRName {
+  margin-left: 5px;
+}
+
+.connectedPRURL {
   margin-left: auto;
   padding: 0px 10px;
 }
