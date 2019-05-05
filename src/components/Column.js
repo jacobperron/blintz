@@ -2,6 +2,7 @@ import React from "react";
 
 import Issue from './Issue';
 
+// TODO(jacobperron): Combine issues and PRs for sorting (e.g. by date)
 function Column(props) {
   return (
     <div className="column">
@@ -23,6 +24,21 @@ function Column(props) {
               repository={issue.repository.nameWithOwner}
               title={issue.title}
               url={issue.url} />
+          );
+        })
+      }
+      {
+        typeof props.pullRequests !== "undefined" &&
+        props.pullRequests.map(pr_edge => {
+          let pr = pr_edge.node;
+          return (
+            <Issue key={pr.id}
+              connectedPRs={[]}
+              number={pr.number}
+              labels={pr.labels}
+              repository={pr.repository.nameWithOwner}
+              title={pr.title}
+              url={pr.url} />
           );
         })
       }

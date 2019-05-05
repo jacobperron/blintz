@@ -16,45 +16,67 @@ function repo_query(anon, i) {
   return `
     ${this.repos[i]}: repository(owner:${OWNER}, name: ${this.repos[i]}) {
       issues(last:100) {
-      edges {
-        node {
-          closed
-          id
-          labels(first:100) {
-            edges {
-              node {
-                color
-                id
-                name
+        edges {
+          node {
+            closed
+            id
+            labels(first:100) {
+              edges {
+                node {
+                  color
+                  id
+                  name
+                }
               }
             }
-          }
-          number
-          repository {
-            nameWithOwner
-          }
-          timelineItems(last:100, itemTypes:CROSS_REFERENCED_EVENT) {
-            edges {
-              node {
-                ... on CrossReferencedEvent {
-                  source {
-                    ... on PullRequest {
-                      id
-                      number
-                      repository {
-                        nameWithOwner
+            number
+            repository {
+              nameWithOwner
+            }
+            timelineItems(last:100, itemTypes:CROSS_REFERENCED_EVENT) {
+              edges {
+                node {
+                  ... on CrossReferencedEvent {
+                    source {
+                      ... on PullRequest {
+                        id
+                        number
+                        repository {
+                          nameWithOwner
+                        }
+                        url
                       }
-                      url
                     }
                   }
                 }
               }
             }
+            title
+            url
           }
-          title
-          url
         }
       }
+      pullRequests(last:100, states:OPEN) {
+        edges {
+          node {
+            id
+            labels(first:100) {
+              edges {
+                node {
+                  color
+                  id
+                  name
+                }
+              }
+            }
+            number
+            repository {
+              nameWithOwner
+            }
+            title
+            url
+          }
+        }
       }
     }
   `;
@@ -97,27 +119,57 @@ class Board extends React.Component {
            for (let i = 0; i < REPOS.length; ++i) {
              allIssues = allIssues.concat(data[REPOS[i]].issues.edges);
            }
+           let allPullRequests = [];
+           for (let i = 0; i < REPOS.length; ++i) {
+             allPullRequests = allPullRequests.concat(data[REPOS[i]].pullRequests.edges);
+           }
+
+           // TODO(jacobperron): Filter out PRs that are "connected" to at least one issue
 
            return (
              <div className="board">
-               <Column key="0" name="Inbox" issues={
-                 allIssues.filter(issue => {
-                   return (
-                     !issue.node.closed &&
-                     !hasLabel(issue.node, 'in progress') &&
-                     !hasLabel(issue.node, 'in review'));
-                 })
-               } />
-               <Column key="1" name="In progress" issues={
-                 allIssues.filter(issue => {
-                   return !issue.node.closed && hasLabel(issue.node, 'in progress');
-                 })
-               } />
-               <Column key="2" name="In review" issues={
-                 allIssues.filter(issue => {
-                   return !issue.node.closed && hasLabel(issue.node, 'in review');
-                 })
-               } />
+               <Column key="0" name="Inbox"
+                 issues={
+                   allIssues.filter(issue => {
+                     return (
+                       !issue.node.closed &&
+                       !hasLabel(issue.node, 'in progress') &&
+                       !hasLabel(issue.node, 'in review'));
+                   })
+                 }
+                 pullRequests={
+                   allPullRequests.filter(pr => {
+                     return (
+                       !pr.node.closed &&
+                       !hasLabel(pr.node, 'in progress') &&
+                       !hasLabel(pr.node, 'in review'));
+                   })
+                 }
+               />
+               <Column key="1" name="In progress"
+                 issues={
+                   allIssues.filter(issue => {
+                     return !issue.node.closed && hasLabel(issue.node, 'in progress');
+                   })
+                 }
+                 pullRequests={
+                   allPullRequests.filter(pr => {
+                     return !pr.node.closed && hasLabel(pr.node, 'in progress');
+                   })
+                 }
+               />
+               <Column key="2" name="In review"
+                 issues={
+                   allIssues.filter(issue => {
+                     return !issue.node.closed && hasLabel(issue.node, 'in review');
+                   })
+                 }
+                 pullRequests={
+                   allPullRequests.filter(pr => {
+                     return !pr.node.closed && hasLabel(pr.node, 'in review');
+                   })
+                 }
+               />
                <Column key="3" name="Done" issues={
                  allIssues.filter(issue => issue.node.closed)
                } />
