@@ -35,30 +35,6 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-apolloClient.query({
-  query: gql`{
-    repository(owner:"ros2", name:"rcl") {
-      issues(last:20) {
-        edges {
-          node {
-            id
-            title
-            closed
-            url
-            labels(first:5) {
-              edges {
-                node {
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }`
-}).then(result => console.log(result));
-
 /*
 // TODO(jacobperron): Use GitHub authenticate module
 // https://github.com/checkr/react-github-login
