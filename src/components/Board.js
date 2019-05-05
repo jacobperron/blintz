@@ -18,63 +18,27 @@ function repo_query(anon, i) {
       issues(last:100) {
         edges {
           node {
-            closed
-            id
-            labels(first:100) {
-              edges {
-                node {
-                  color
-                  id
-                  name
-                }
-              }
-            }
-            number
-            repository {
-              nameWithOwner
-            }
+            ...IssueWithoutRef
             timelineItems(last:100, itemTypes:CROSS_REFERENCED_EVENT) {
               edges {
                 node {
                   ... on CrossReferencedEvent {
                     source {
                       ... on PullRequest {
-                        id
-                        number
-                        repository {
-                          nameWithOwner
-                        }
-                        url
+                        ...PullRequestWithoutRef
                       }
                     }
                   }
                 }
               }
             }
-            title
-            url
           }
         }
       }
       pullRequests(last:100, states:OPEN) {
         edges {
           node {
-            id
-            labels(first:100) {
-              edges {
-                node {
-                  color
-                  id
-                  name
-                }
-              }
-            }
-            number
-            repository {
-              nameWithOwner
-            }
-            title
-            url
+            ...PullRequestWithoutRef
           }
         }
       }
@@ -82,10 +46,49 @@ function repo_query(anon, i) {
   `;
 }
 
-const GET_ISSUES_MULTI_REPO = gql`query GetIssuesMultiRepo {
-  ${Array(REPOS.length).fill().map(repo_query, {repos: REPOS}).join(' ')}
-}`;
-
+const GET_ISSUES_MULTI_REPO = gql`
+  query GetIssuesMultiRepo {
+    ${Array(REPOS.length).fill().map(repo_query, {repos: REPOS}).join(' ')}
+  }
+  fragment IssueWithoutRef on Issue {
+    closed
+    id
+    labels(first:10) {
+      edges {
+        node {
+          color
+          id
+          name
+        }
+      }
+    }
+    number
+    repository {
+      nameWithOwner
+    }
+    title
+    url
+  }
+  fragment PullRequestWithoutRef on PullRequest {
+    closed
+    id
+    labels(first:10) {
+      edges {
+        node {
+          color
+          id
+          name
+        }
+      }
+    }
+    number
+    repository {
+      nameWithOwner
+    }
+    title
+    url
+  }
+`;
 
 function hasLabel(issue, label) {
   for (let i = 0; i < issue.labels.edges.length; ++i) {
