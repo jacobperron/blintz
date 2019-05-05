@@ -11,6 +11,8 @@ function Column(props) {
       {
         props.issues.map(issue_edge => {
           let issue = issue_edge.node;
+          let assigneeAvatarUrl = (issue.assignees.edges.length > 0 ?
+            issue.assignees.edges[0].node.avatarUrl : undefined);
           let connectedPRs = issue.timelineItems.edges.map(timeline_edge => {
             let pr = timeline_edge.node.source;
             // TODO(jacobperron): Filter by "connected" PRs
@@ -18,6 +20,7 @@ function Column(props) {
           });
           return (
             <Issue key={issue.id}
+              avatarUrl={assigneeAvatarUrl}
               connectedPRs={connectedPRs}
               number={issue.number}
               labels={issue.labels}

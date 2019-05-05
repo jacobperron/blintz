@@ -2,6 +2,12 @@ body {
   overflow-y: hidden;
 }
 
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 20%;
+}
+
 .board {
   display: flex;
   height: 100vh;
@@ -34,23 +40,29 @@ body {
 
 .issueHeader {
   display: flex;
+  padding: 5px;
 }
 
 .issueNumber {
-  padding: 0px 10px;
+  padding-right: 10px;
 }
 
 .issueRepository {
   font-weight: bold;
 }
 
+.issueAssignee {
+  margin-left: auto;
+}
+
 .issueBody {
-  padding: 10px;
+  padding: 0px 10px;
   text-align: left;
 }
 
 .issueFooter {
   display: flex;
+  padding: 5px;
   box-shadow: 0px 5px 5px #888888;
 }
 
@@ -60,7 +72,6 @@ body {
 
 .issueURL {
   margin-left: auto;
-  padding: 0px 10px;
 }
 
 .connectedPR {

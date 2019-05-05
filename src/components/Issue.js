@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from './Avatar.js';
 
 function renderLabels(labels) {
   return (
@@ -47,6 +48,7 @@ function renderConnectedPRs(connectedPRs) {
   );
 }
 
+
 function Issue(props) {
   return (
     <div className="issue">
@@ -56,6 +58,9 @@ function Issue(props) {
         </div>
         <div className="issueRepository">
           {props.repository}
+        </div>
+        <div className="issueAssignee">
+          <Avatar url={props.avatarUrl} />
         </div>
       </div>
       <div className="issueBody">

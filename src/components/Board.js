@@ -51,6 +51,13 @@ const GET_ISSUES_MULTI_REPO = gql`
     ${Array(REPOS.length).fill().map(repo_query, {repos: REPOS}).join(' ')}
   }
   fragment IssueWithoutRef on Issue {
+    assignees(last:1) {
+      edges {
+        node {
+          avatarUrl
+        }
+      }
+    }
     closed
     id
     labels(first:10) {
