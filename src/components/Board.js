@@ -118,22 +118,35 @@ class Board extends React.Component {
            if (loading) return "Loading...";
            if (error) return `Error: ${error.message}`;
 
-           let allIssues = [];
+           let allIssues = {};
+           let allPullRequests = {};
            for (let i = 0; i < REPOS.length; ++i) {
-             allIssues = allIssues.concat(data[REPOS[i]].issues.edges);
-           }
-           let allPullRequests = [];
-           for (let i = 0; i < REPOS.length; ++i) {
-             allPullRequests = allPullRequests.concat(data[REPOS[i]].pullRequests.edges);
+             for (let j = 0; j < data[REPOS[i]].issues.edges.length; ++j) {
+               let issue = data[REPOS[i]].issues.edges[j];
+               allIssues[issue.node.id] = issue;
+             }
+             for (let j = 0; j < data[REPOS[i]].pullRequests.edges.length; ++j) {
+               let pullRequest = data[REPOS[i]].pullRequests.edges[j];
+               allPullRequests[pullRequest.node.id] = pullRequest;
+             }
            }
 
-           // TODO(jacobperron): Filter out PRs that are "connected" to at least one issue
+           // Filter out PRs that are "connected" to at least one issue
+           for (let issueID in allIssues) {
+             let issue = allIssues[issueID].node;
+             for (let i = 0; i < issue.timelineItems.edges.length; ++i) {
+               let pullRequestId = issue.timelineItems.edges[i].node.source.id;
+               if (pullRequestId in allPullRequests) {
+                 delete allPullRequests[pullRequestId];
+               }
+             }
+           }
 
            return (
              <div className="board">
                <Column key="0" name="Inbox"
                  issues={
-                   allIssues.filter(issue => {
+                   Object.values(allIssues).filter(issue => {
                      return (
                        !issue.node.closed &&
                        !hasLabel(issue.node, 'in progress') &&
@@ -141,7 +154,7 @@ class Board extends React.Component {
                    })
                  }
                  pullRequests={
-                   allPullRequests.filter(pr => {
+                   Object.values(allPullRequests).filter(pr => {
                      return (
                        !pr.node.closed &&
                        !hasLabel(pr.node, 'in progress') &&
@@ -151,30 +164,30 @@ class Board extends React.Component {
                />
                <Column key="1" name="In progress"
                  issues={
-                   allIssues.filter(issue => {
+                   Object.values(allIssues).filter(issue => {
                      return !issue.node.closed && hasLabel(issue.node, 'in progress');
                    })
                  }
                  pullRequests={
-                   allPullRequests.filter(pr => {
+                   Object.values(allPullRequests).filter(pr => {
                      return !pr.node.closed && hasLabel(pr.node, 'in progress');
                    })
                  }
                />
                <Column key="2" name="In review"
                  issues={
-                   allIssues.filter(issue => {
+                   Object.values(allIssues).filter(issue => {
                      return !issue.node.closed && hasLabel(issue.node, 'in review');
                    })
                  }
                  pullRequests={
-                   allPullRequests.filter(pr => {
+                   Object.values(allPullRequests).filter(pr => {
                      return !pr.node.closed && hasLabel(pr.node, 'in review');
                    })
                  }
                />
                <Column key="3" name="Done" issues={
-                 allIssues.filter(issue => issue.node.closed)
+                 Object.values(allIssues).filter(issue => issue.node.closed)
                } />
              </div>
            );
