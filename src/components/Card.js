@@ -22,10 +22,13 @@ function renderLabels(labels) {
 }
 
 function renderConnectedPRs(connectedPRs) {
+  if (connectedPRs === null) {
+    return null;
+  }
   return (
     connectedPRs.map(pr => {
       if (typeof pr.repository === "undefined") {
-        return '';
+        return null;
       }
       return (
         <div key={pr.id} className="connectedPR">

@@ -58,6 +58,7 @@ const GET_ISSUES_MULTI_REPO = gql`
         }
       }
     }
+    createdAt
     closed
     id
     labels(first:10) {
@@ -78,6 +79,7 @@ const GET_ISSUES_MULTI_REPO = gql`
   }
   fragment PullRequestWithoutRef on PullRequest {
     closed
+    createdAt
     id
     labels(first:10) {
       edges {

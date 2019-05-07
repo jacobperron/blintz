@@ -2,44 +2,44 @@ import React from "react";
 
 import Card from './Card';
 
-// TODO(jacobperron): Combine issues and PRs for sorting (e.g. by date)
 function Column(props) {
+  // Combine issues and PRs into one array
+  let cards = props.issues.concat(props.pullRequests);
+
+  // Filter empty values
+  cards = cards.filter(e => e != null);
+
+  // Sort by date (newest to oldest)
+  cards.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   return (
     <div className="column">
       <h2>{props.name}</h2>
       <div className="columnCards">
       {
-        props.issues.map(issue => {
-          let assigneeAvatarUrl = (issue.assignees.edges.length > 0 ?
-            issue.assignees.edges[0].node.avatarUrl : undefined);
-          let connectedPRs = issue.timelineItems.edges.map(timeline_edge => {
-            let pr = timeline_edge.node.source;
-            // TODO(jacobperron): Filter by "connected" PRs
-            return pr;
-          });
+        cards.map(card => {
+          let assigneeAvatarUrl = null;
+          if (typeof card.assignees !== "undefined" && card.assignees.edges.length > 0) {
+            assigneeAvatarUrl = card.assignees.edges[0].node.avatarUrl;
+          }
+          let connectedPRs = null;
+          if (typeof card.timelineItems !== "undefined") {
+            connectedPRs = card.timelineItems.edges.map(timeline_edge => {
+              let pr = timeline_edge.node.source;
+              // TODO(jacobperron): Filter by "connected" PRs
+              return pr;
+            });
+          }
+
           return (
-            <Card key={issue.id}
+            <Card key={card.id}
               avatarUrl={assigneeAvatarUrl}
               connectedPRs={connectedPRs}
-              number={issue.number}
-              labels={issue.labels}
-              repository={issue.repository.nameWithOwner}
-              title={issue.title}
-              url={issue.url} />
-          );
-        })
-      }
-      {
-        typeof props.pullRequests !== "undefined" &&
-        props.pullRequests.map(pr => {
-          return (
-            <Card key={pr.id}
-              connectedPRs={[]}
-              number={pr.number}
-              labels={pr.labels}
-              repository={pr.repository.nameWithOwner}
-              title={pr.title}
-              url={pr.url} />
+              number={card.number}
+              labels={card.labels}
+              repository={card.repository.nameWithOwner}
+              title={card.title}
+              url={card.url} />
           );
         })
       }

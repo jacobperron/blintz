@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Avatar(props) {
-  if (typeof props.url === "undefined") {
+  if (props.url === null) {
     // TODO(jacobperron): Replace with anonymous avatar
     return 'unknown';
   }
