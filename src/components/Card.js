@@ -3,25 +3,21 @@ import Avatar from './Avatar.js';
 
 function renderLabels(labels) {
   return (
-    <div className="cardLabels">
-      {
-      labels.edges.map(edge => {
-        let label = edge.node;
-        let labelStyle = {
-          padding: '2px',
-          marginLeft: '5px',
-          backgroundColor: '#' + label.color,
-          borderRadius: '5px',
-          height: '20px',
-        };
-        return (
-          <div key={label.id} style={labelStyle}>
-            {label.name}
-          </div>
-        );
-      })
-      }
-    </div>
+    labels.edges.map(edge => {
+      let label = edge.node;
+      let labelStyle = {
+        padding: '2px',
+        marginLeft: '5px',
+        backgroundColor: '#' + label.color,
+        borderRadius: '5px',
+        height: '20px',
+      };
+      return (
+        <div key={label.id} style={labelStyle}>
+          {label.name}
+        </div>
+      );
+    })
   );
 }
 
@@ -69,7 +65,9 @@ function Card(props) {
         </div>
       </div>
       <div className="cardFooter">
-        {renderLabels(props.labels)}
+        <div className="cardLabels">
+          {renderLabels(props.labels)}
+        </div>
         <div className="cardURL">
           <a href={props.url}>github</a>
         </div>

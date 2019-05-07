@@ -9,8 +9,7 @@ function Column(props) {
       <h2>{props.name}</h2>
       <div className="columnCards">
       {
-        props.issues.map(issue_edge => {
-          let issue = issue_edge.node;
+        props.issues.map(issue => {
           let assigneeAvatarUrl = (issue.assignees.edges.length > 0 ?
             issue.assignees.edges[0].node.avatarUrl : undefined);
           let connectedPRs = issue.timelineItems.edges.map(timeline_edge => {
@@ -32,8 +31,7 @@ function Column(props) {
       }
       {
         typeof props.pullRequests !== "undefined" &&
-        props.pullRequests.map(pr_edge => {
-          let pr = pr_edge.node;
+        props.pullRequests.map(pr => {
           return (
             <Card key={pr.id}
               connectedPRs={[]}

@@ -99,8 +99,8 @@ const GET_ISSUES_MULTI_REPO = gql`
 
 function hasLabel(issue, label) {
   for (let i = 0; i < issue.labels.edges.length; ++i) {
-    let edge = issue.labels.edges[i];
-    if (label === edge.node.name) {
+    let labelName = issue.labels.edges[i].node.name;
+    if (label === labelName) {
       return true;
     }
   }
@@ -129,18 +129,18 @@ class Board extends React.Component {
            let allPullRequests = {};
            for (let i = 0; i < REPOS.length; ++i) {
              for (let j = 0; j < data[REPOS[i]].issues.edges.length; ++j) {
-               let issue = data[REPOS[i]].issues.edges[j];
-               allIssues[issue.node.id] = issue;
+               let issue = data[REPOS[i]].issues.edges[j].node;
+               allIssues[issue.id] = issue;
              }
              for (let j = 0; j < data[REPOS[i]].pullRequests.edges.length; ++j) {
-               let pullRequest = data[REPOS[i]].pullRequests.edges[j];
-               allPullRequests[pullRequest.node.id] = pullRequest;
+               let pullRequest = data[REPOS[i]].pullRequests.edges[j].node;
+               allPullRequests[pullRequest.id] = pullRequest;
              }
            }
 
            // Filter out PRs that are "connected" to at least one issue
            for (let issueID in allIssues) {
-             let issue = allIssues[issueID].node;
+             let issue = allIssues[issueID];
              for (let i = 0; i < issue.timelineItems.edges.length; ++i) {
                let pullRequestId = issue.timelineItems.edges[i].node.source.id;
                if (pullRequestId in allPullRequests) {
@@ -155,46 +155,46 @@ class Board extends React.Component {
                  issues={
                    Object.values(allIssues).filter(issue => {
                      return (
-                       !issue.node.closed &&
-                       !hasLabel(issue.node, 'in progress') &&
-                       !hasLabel(issue.node, 'in review'));
+                       !issue.closed &&
+                       !hasLabel(issue, 'in progress') &&
+                       !hasLabel(issue, 'in review'));
                    })
                  }
                  pullRequests={
                    Object.values(allPullRequests).filter(pr => {
                      return (
-                       !pr.node.closed &&
-                       !hasLabel(pr.node, 'in progress') &&
-                       !hasLabel(pr.node, 'in review'));
+                       !pr.closed &&
+                       !hasLabel(pr, 'in progress') &&
+                       !hasLabel(pr, 'in review'));
                    })
                  }
                />
                <Column key="1" name="In progress"
                  issues={
                    Object.values(allIssues).filter(issue => {
-                     return !issue.node.closed && hasLabel(issue.node, 'in progress');
+                     return !issue.closed && hasLabel(issue, 'in progress');
                    })
                  }
                  pullRequests={
                    Object.values(allPullRequests).filter(pr => {
-                     return !pr.node.closed && hasLabel(pr.node, 'in progress');
+                     return !pr.closed && hasLabel(pr, 'in progress');
                    })
                  }
                />
                <Column key="2" name="In review"
                  issues={
                    Object.values(allIssues).filter(issue => {
-                     return !issue.node.closed && hasLabel(issue.node, 'in review');
+                     return !issue.closed && hasLabel(issue, 'in review');
                    })
                  }
                  pullRequests={
                    Object.values(allPullRequests).filter(pr => {
-                     return !pr.node.closed && hasLabel(pr.node, 'in review');
+                     return !pr.closed && hasLabel(pr, 'in review');
                    })
                  }
                />
                <Column key="3" name="Done" issues={
-                 Object.values(allIssues).filter(issue => issue.node.closed)
+                 Object.values(allIssues).filter(issue => issue.closed)
                } />
              </div>
            );
