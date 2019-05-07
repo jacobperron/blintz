@@ -3,7 +3,7 @@ import React from 'react';
 function Avatar(props) {
   if (typeof props.url === "undefined") {
     // TODO(jacobperron): Replace with anonymous avatar
-    return 'unkown';
+    return 'unknown';
   }
 
   return <img src={props.url} alt="" className="avatar" />;
