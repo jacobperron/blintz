@@ -3,7 +3,7 @@ import Avatar from './Avatar.js';
 
 function renderLabels(labels) {
   return (
-    <div className="issueLabels">
+    <div className="cardLabels">
       {
       labels.edges.map(edge => {
         let label = edge.node;
@@ -49,36 +49,36 @@ function renderConnectedPRs(connectedPRs) {
 }
 
 
-function Issue(props) {
+function Card(props) {
   return (
-    <div className="issue">
-      <div className="issueHeader">
-        <div className="issueNumber">
+    <div className="card">
+      <div className="cardHeader">
+        <div className="cardNumber">
           {props.number}
         </div>
-        <div className="issueRepository">
+        <div className="cardRepository">
           {props.repository}
         </div>
-        <div className="issueAssignee">
+        <div className="cardAssignee">
           <Avatar url={props.avatarUrl} />
         </div>
       </div>
-      <div className="issueBody">
-        <div className="issueTitle">
+      <div className="cardBody">
+        <div className="cardTitle">
           {props.title}
         </div>
       </div>
-      <div className="issueFooter">
+      <div className="cardFooter">
         {renderLabels(props.labels)}
-        <div className="issueURL">
+        <div className="cardURL">
           <a href={props.url}>github</a>
         </div>
       </div>
-      <div className="issueConnectedPRs">
+      <div className="cardConnectedPRs">
         {renderConnectedPRs(props.connectedPRs)}
       </div>
     </div>
   );
 }
 
-export default Issue;
+export default Card;

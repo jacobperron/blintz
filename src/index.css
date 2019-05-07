@@ -25,11 +25,11 @@ body {
   background-color:#c4c6c8 !important;
 }
 
-.columnIssues {
+.columnCards {
   overflow-y: auto;
 }
 
-.issue {
+.card {
   flex: 1;
   color: #000 !important;
   background-color: #e1e2e4 !important;
@@ -38,39 +38,39 @@ body {
   margin: 5px 0px;
 }
 
-.issueHeader {
+.cardHeader {
   display: flex;
   padding: 5px;
 }
 
-.issueNumber {
+.cardNumber {
   padding-right: 10px;
 }
 
-.issueRepository {
+.cardRepository {
   font-weight: bold;
 }
 
-.issueAssignee {
+.cardAssignee {
   margin-left: auto;
 }
 
-.issueBody {
+.cardBody {
   padding: 0px 10px;
   text-align: left;
 }
 
-.issueFooter {
+.cardFooter {
   display: flex;
   padding: 5px;
   box-shadow: 0px 5px 5px #888888;
 }
 
-.issueLabels {
+.cardLabels {
   display: flex;
 }
 
-.issueURL {
+.cardURL {
   margin-left: auto;
 }
 

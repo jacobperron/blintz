@@ -1,13 +1,13 @@
 import React from "react";
 
-import Issue from './Issue';
+import Card from './Card';
 
 // TODO(jacobperron): Combine issues and PRs for sorting (e.g. by date)
 function Column(props) {
   return (
     <div className="column">
       <h2>{props.name}</h2>
-      <div className="columnIssues">
+      <div className="columnCards">
       {
         props.issues.map(issue_edge => {
           let issue = issue_edge.node;
@@ -19,7 +19,7 @@ function Column(props) {
             return pr;
           });
           return (
-            <Issue key={issue.id}
+            <Card key={issue.id}
               avatarUrl={assigneeAvatarUrl}
               connectedPRs={connectedPRs}
               number={issue.number}
@@ -35,7 +35,7 @@ function Column(props) {
         props.pullRequests.map(pr_edge => {
           let pr = pr_edge.node;
           return (
-            <Issue key={pr.id}
+            <Card key={pr.id}
               connectedPRs={[]}
               number={pr.number}
               labels={pr.labels}
