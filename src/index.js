@@ -11,7 +11,7 @@ import Board from './components/Board';
 import './index.css';
 
 // "No scope" GitHub authentication token
-// Provides public, read-onll access for GitHub API
+// Provides public, read-only access for GitHub API
 localStorage.setItem('token', '04619dfbf08b43723a3430e99d0b5eb3979aace4');
 
 const apolloHttpLink = createHttpLink({
