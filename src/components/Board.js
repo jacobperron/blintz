@@ -105,11 +105,31 @@ function hasLabel(issue, label) {
   return false;
 }
 
+function cardFilter(card) {
+  if (this.column.state === "open" && card.closed) {
+    return false;
+  }
+
+  // If there is no label assigned to this column, include all cards that are not matched
+  // to another column
+  if (this.column.label === null) {
+    for (let label in this.column.label) {
+      if (hasLabel(card, label)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  return hasLabel(card, this.column.label);
+}
+
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       repos: [],
+      columns: [],
       query: null,
     };
 
@@ -117,9 +137,17 @@ class Board extends React.Component {
   }
 
   updateConfig(repos, columns) {
+    let newRepos = this.state.repos;
+    let newColumns = this.state.columns;
+    let newQuery = this.state.query;
     if (repos !== null) {
-      this.setState({repos: repos, query: multi_repo_query(repos)});
+      newRepos = repos;
+      newQuery = multi_repo_query(repos);
     }
+    if (columns !== null) {
+      newColumns = columns;
+    }
+    this.setState({repos: newRepos, columns: newColumns, query: newQuery});
   }
 
   updateColumns() {
@@ -132,8 +160,8 @@ class Board extends React.Component {
           if (loading) return "Loading...";
           if (error) return `Error: ${error.message}`;
 
-          // let data = this.state.queryResult;
           let repos = this.state.repos;
+          let columns = this.state.columns
           let allIssues = {};
           let allPullRequests = {};
           for (let i = 0; i < repos.length; ++i) {
@@ -158,53 +186,35 @@ class Board extends React.Component {
             }
           }
 
+          // Collect all labels for columns
+          let labels = {};
+          for (let i = 0; i < columns.length; ++i) {
+            let column = columns[i];
+            if (column.label === null) {
+              continue;
+            }
+            if (column.label in labels) {
+              console.warn(`The label ${column.label} is used more than once`);
+            }
+            labels[column.label] = true;
+          }
+
+          let columnComponents = this.state.columns.map((column, index) => {
+            return (
+              <Column key={index.toString()} name={column.name}
+                issues={
+                  Object.values(allIssues).filter(cardFilter, {labels: labels, column: column})
+                }
+                pullRequests={
+                  Object.values(allPullRequests).filter(cardFilter, {labels: labels, column: column})
+                }
+              />
+            );
+          });
+
           return (
             <div className="board">
-              <Column key="0" name="Inbox"
-                issues={
-                  Object.values(allIssues).filter(issue => {
-                    return (
-                      !issue.closed &&
-                      !hasLabel(issue, 'in progress') &&
-                      !hasLabel(issue, 'in review'));
-                  })
-                }
-                pullRequests={
-                  Object.values(allPullRequests).filter(pr => {
-                    return (
-                      !pr.closed &&
-                      !hasLabel(pr, 'in progress') &&
-                      !hasLabel(pr, 'in review'));
-                  })
-                }
-              />
-              <Column key="1" name="In progress"
-                issues={
-                  Object.values(allIssues).filter(issue => {
-                    return !issue.closed && hasLabel(issue, 'in progress');
-                  })
-                }
-                pullRequests={
-                  Object.values(allPullRequests).filter(pr => {
-                    return !pr.closed && hasLabel(pr, 'in progress');
-                  })
-                }
-              />
-              <Column key="2" name="In review"
-                issues={
-                  Object.values(allIssues).filter(issue => {
-                    return !issue.closed && hasLabel(issue, 'in review');
-                  })
-                }
-                pullRequests={
-                  Object.values(allPullRequests).filter(pr => {
-                    return !pr.closed && hasLabel(pr, 'in review');
-                  })
-                }
-              />
-              <Column key="3" name="Done" issues={
-                Object.values(allIssues).filter(issue => issue.closed)
-              } />
+              {columnComponents}
             </div>
           );
         }}
