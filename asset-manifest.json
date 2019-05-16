@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/blintz/static/css/main.e7c05008.chunk.css",
-    "main.js": "/blintz/static/js/main.93c5a9bf.chunk.js",
-    "main.js.map": "/blintz/static/js/main.93c5a9bf.chunk.js.map",
-    "runtime~main.js": "/blintz/static/js/runtime~main.63b14ee5.js",
-    "runtime~main.js.map": "/blintz/static/js/runtime~main.63b14ee5.js.map",
-    "static/js/2.ed56b676.chunk.js": "/blintz/static/js/2.ed56b676.chunk.js",
-    "static/js/2.ed56b676.chunk.js.map": "/blintz/static/js/2.ed56b676.chunk.js.map",
-    "index.html": "/blintz/index.html",
-    "precache-manifest.6d868517f33fe05973660eab0982f156.js": "/blintz/precache-manifest.6d868517f33fe05973660eab0982f156.js",
-    "service-worker.js": "/blintz/service-worker.js",
-    "static/css/main.e7c05008.chunk.css.map": "/blintz/static/css/main.e7c05008.chunk.css.map"
+    "main.css": "/static/css/main.e7c05008.chunk.css",
+    "main.js": "/static/js/main.93c5a9bf.chunk.js",
+    "main.js.map": "/static/js/main.93c5a9bf.chunk.js.map",
+    "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+    "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+    "static/js/2.ed56b676.chunk.js": "/static/js/2.ed56b676.chunk.js",
+    "static/js/2.ed56b676.chunk.js.map": "/static/js/2.ed56b676.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.ede01e1896a1e4bdadb5a27b4281e480.js": "/precache-manifest.ede01e1896a1e4bdadb5a27b4281e480.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.e7c05008.chunk.css.map": "/static/css/main.e7c05008.chunk.css.map"
   }
 }
