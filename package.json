@@ -2,10 +2,12 @@
   "name": "blintz",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://blintz.io",
   "dependencies": {
     "apollo-boost": "^0.3.1",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-link-context": "^1.0.17",
+    "gh-pages": "^2.0.1",
     "graphql": "^14.2.1",
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
@@ -16,6 +18,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "clean": "gh-pages-clean",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
