@@ -6,8 +6,10 @@ import Card from './Card';
 class Column extends React.Component {
 
   render() {
+    let {name, issues, pullRequests} = this.props;
+
     // Combine issues and PRs into one array
-    let cards = this.props.issues.concat(this.props.pullRequests);
+    let cards = issues.concat(pullRequests);
 
     // Filter empty values
     cards = cards.filter(e => e != null);
@@ -17,7 +19,7 @@ class Column extends React.Component {
 
     return (
       <div className="column">
-        <h2>{this.props.name}</h2>
+        <h2>{name}</h2>
         <div className="columnCards">
         {
           cards.map(card => {

@@ -53,34 +53,35 @@ function renderConnectedPRs(connectedPRs) {
 class Card extends React.Component {
 
   render() {
+    let {number, repository, avatarUrl, title, labels, url, connectedPRs} = this.props;
     return (
       <div className="card">
         <div className="cardHeader">
           <div className="cardNumber">
-            {this.props.number}
+            {number}
           </div>
           <div className="cardRepository">
-            {this.props.repository}
+            {repository}
           </div>
           <div className="cardAssignee">
-            <Avatar url={this.props.avatarUrl} />
+            <Avatar url={avatarUrl} />
           </div>
         </div>
         <div className="cardBody">
           <div className="cardTitle">
-            {this.props.title}
+            {title}
           </div>
         </div>
         <div className="cardFooter">
           <div className="cardLabels">
-            {renderLabels(this.props.labels)}
+            {renderLabels(labels)}
           </div>
           <div className="cardURL">
-            <a href={this.props.url}>github</a>
+            <a href={url}>github</a>
           </div>
         </div>
         <div className="cardConnectedPRs">
-          {renderConnectedPRs(this.props.connectedPRs)}
+          {renderConnectedPRs(connectedPRs)}
         </div>
       </div>
     );
