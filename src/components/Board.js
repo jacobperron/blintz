@@ -132,11 +132,9 @@ class Board extends React.Component {
       columns: [],
       query: null,
     };
-
-    this.updateConfig = this.updateConfig.bind(this);
   }
 
-  updateConfig(repos, columns) {
+  updateConfig = (repos, columns) => {
     let newRepos = this.state.repos;
     let newColumns = this.state.columns;
     let newQuery = this.state.query;
