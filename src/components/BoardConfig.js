@@ -103,11 +103,9 @@ class BoardConfig extends React.Component {
     };
   }
 
-  handleChange = (event) => {
-    this.setState({configUrl: event.target.value});
-  }
+  handleChange = (e) => this.setState({configUrl: e.target.value});
 
-  handleSubmit = (event) => {
+  handleSubmit = (e) => {
     fetch(this.state.configUrl)
       .then(response => {
         if(!response.ok) {
