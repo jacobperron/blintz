@@ -199,18 +199,16 @@ class Board extends React.Component {
             labels[column.label] = true;
           }
 
-          let columnComponents = this.state.columns.map((column, index) => {
-            return (
-              <Column key={index.toString()} name={column.name}
-                issues={
-                  Object.values(allIssues).filter(cardFilter, {labels: labels, column: column})
-                }
-                pullRequests={
-                  Object.values(allPullRequests).filter(cardFilter, {labels: labels, column: column})
-                }
-              />
-            );
-          });
+          let columnComponents = this.state.columns.map((column, index) => (
+            <Column key={index.toString()} name={column.name}
+              issues={
+                Object.values(allIssues).filter(cardFilter, {labels: labels, column: column})
+              }
+              pullRequests={
+                Object.values(allPullRequests).filter(cardFilter, {labels: labels, column: column})
+              }
+            />
+          ));
 
           return (
             <div className="board">
