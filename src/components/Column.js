@@ -1,51 +1,61 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import Card from './Card';
 
-function Column(props) {
-  // Combine issues and PRs into one array
-  let cards = props.issues.concat(props.pullRequests);
+class Column extends React.Component {
 
-  // Filter empty values
-  cards = cards.filter(e => e != null);
+  render() {
+    // Combine issues and PRs into one array
+    let cards = this.props.issues.concat(this.props.pullRequests);
 
-  // Sort by date (newest to oldest)
-  cards.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    // Filter empty values
+    cards = cards.filter(e => e != null);
 
-  return (
-    <div className="column">
-      <h2>{props.name}</h2>
-      <div className="columnCards">
-      {
-        cards.map(card => {
-          let assigneeAvatarUrl = null;
-          if (typeof card.assignees !== "undefined" && card.assignees.edges.length > 0) {
-            assigneeAvatarUrl = card.assignees.edges[0].node.avatarUrl;
-          }
-          let connectedPRs = null;
-          if (typeof card.timelineItems !== "undefined") {
-            connectedPRs = card.timelineItems.edges.map(timeline_edge => {
-              let pr = timeline_edge.node.source;
-              // TODO(jacobperron): Filter by "connected" PRs
-              return pr;
-            });
-          }
+    // Sort by date (newest to oldest)
+    cards.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-          return (
-            <Card key={card.id}
-              avatarUrl={assigneeAvatarUrl}
-              connectedPRs={connectedPRs}
-              number={card.number}
-              labels={card.labels}
-              repository={card.repository.nameWithOwner}
-              title={card.title}
-              url={card.url} />
-          );
-        })
-      }
+    return (
+      <div className="column">
+        <h2>{this.props.name}</h2>
+        <div className="columnCards">
+        {
+          cards.map(card => {
+            let assigneeAvatarUrl = null;
+            if (typeof card.assignees !== "undefined" && card.assignees.edges.length > 0) {
+              assigneeAvatarUrl = card.assignees.edges[0].node.avatarUrl;
+            }
+            let connectedPRs = null;
+            if (typeof card.timelineItems !== "undefined") {
+              connectedPRs = card.timelineItems.edges.map(timeline_edge => {
+                let pr = timeline_edge.node.source;
+                // TODO(jacobperron): Filter by "connected" PRs
+                return pr;
+              });
+            }
+
+            return (
+              <Card key={card.id}
+                avatarUrl={assigneeAvatarUrl}
+                connectedPRs={connectedPRs}
+                number={card.number}
+                labels={card.labels}
+                repository={card.repository.nameWithOwner}
+                title={card.title}
+                url={card.url} />
+            );
+          })
+        }
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+}
+
+Column.propTypes = {
+  name: PropTypes.string.isRequired ,
+  issues: PropTypes.array.isRequired,
+  pullRequests: PropTypes.array.isRequired
 }
 
 export default Column;

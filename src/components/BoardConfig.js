@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function validateRepositories(repositories) {
   let result = {
@@ -147,6 +148,10 @@ class BoardConfig extends React.Component {
       </div>
     );
   }
+}
+
+BoardConfig.propTypes = {
+  onConfig: PropTypes.func.isRequired
 }
 
 export default BoardConfig;

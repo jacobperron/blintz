@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Avatar from './Avatar.js';
 
 function renderLabels(labels) {
@@ -48,38 +50,51 @@ function renderConnectedPRs(connectedPRs) {
 }
 
 
-function Card(props) {
-  return (
-    <div className="card">
-      <div className="cardHeader">
-        <div className="cardNumber">
-          {props.number}
+class Card extends React.Component {
+
+  render() {
+    return (
+      <div className="card">
+        <div className="cardHeader">
+          <div className="cardNumber">
+            {this.props.number}
+          </div>
+          <div className="cardRepository">
+            {this.props.repository}
+          </div>
+          <div className="cardAssignee">
+            <Avatar url={this.props.avatarUrl} />
+          </div>
         </div>
-        <div className="cardRepository">
-          {props.repository}
+        <div className="cardBody">
+          <div className="cardTitle">
+            {this.props.title}
+          </div>
         </div>
-        <div className="cardAssignee">
-          <Avatar url={props.avatarUrl} />
+        <div className="cardFooter">
+          <div className="cardLabels">
+            {renderLabels(this.props.labels)}
+          </div>
+          <div className="cardURL">
+            <a href={this.props.url}>github</a>
+          </div>
+        </div>
+        <div className="cardConnectedPRs">
+          {renderConnectedPRs(this.props.connectedPRs)}
         </div>
       </div>
-      <div className="cardBody">
-        <div className="cardTitle">
-          {props.title}
-        </div>
-      </div>
-      <div className="cardFooter">
-        <div className="cardLabels">
-          {renderLabels(props.labels)}
-        </div>
-        <div className="cardURL">
-          <a href={props.url}>github</a>
-        </div>
-      </div>
-      <div className="cardConnectedPRs">
-        {renderConnectedPRs(props.connectedPRs)}
-      </div>
-    </div>
-  );
+    );
+  }
+}
+
+Card.propTypes = {
+  number: PropTypes.number.isRequired,
+  repository: PropTypes.string.isRequired,
+  avatartUrl: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  labels: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
+  connectedPRs: PropTypes.array
 }
 
 export default Card;

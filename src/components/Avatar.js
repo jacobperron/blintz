@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Avatar(props) {
   if (props.url === null) {
@@ -7,6 +8,10 @@ function Avatar(props) {
   }
 
   return <img src={props.url} alt="" className="avatar" />;
+}
+
+Avatar.propTypes = {
+  url: PropTypes.string
 }
 
 export default Avatar
