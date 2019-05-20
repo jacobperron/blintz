@@ -106,6 +106,7 @@ class BoardConfig extends React.Component {
   handleChange = (e) => this.setState({configUrl: e.target.value});
 
   handleSubmit = (e) => {
+    e.preventDefault();
     fetch(this.state.configUrl)
       .then(response => {
         if(!response.ok) {
@@ -135,13 +136,13 @@ class BoardConfig extends React.Component {
 
   render() {
     return (
-      <div>
+      <form onSubmit={this.handleSubmit}>
         <label>
           Configuration:
           <input type="text" value={this.configUrl} onChange={this.handleChange} />
         </label>
-        <input type="button" value="Configure" onClick={this.handleSubmit} />
-      </div>
+        <input type="submit" value="Configure" />
+      </form>
     );
   }
 }
