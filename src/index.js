@@ -7,7 +7,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Board from './components/Board';
+import App from './App';
+
 import './index.css';
 
 // "No scope" GitHub authentication token
@@ -54,9 +55,8 @@ redirectUri="http://localhost:3000" />
 ReactDOM.render(
   <div>
     <ApolloProvider client={apolloClient}>
-      <Board apolloClient={apolloClient} />
+      <App />
     </ApolloProvider>
   </div>,
   document.getElementById('root')
 );
-
