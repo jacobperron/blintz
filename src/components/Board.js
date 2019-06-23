@@ -73,6 +73,13 @@ function multi_repo_query(repos) {
       url
     }
     fragment PullRequestWithoutRef on PullRequest {
+      assignees(last:1) {
+        edges {
+          node {
+            avatarUrl
+          }
+        }
+      }
       closed
       createdAt
       id
