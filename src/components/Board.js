@@ -8,7 +8,7 @@ import { Query } from "react-apollo";
 
 function repo_query(anon, i) {
   return `
-    ${this.repos[i].name}: repository(owner:${this.repos[i].owner}, name:${this.repos[i].name}) {
+    ${this.repos[i].name}: repository(owner:"${this.repos[i].owner}", name:"${this.repos[i].name}") {
       issues(last:20) {
         edges {
           node {
